@@ -1,12 +1,17 @@
 const express = require('express');
 const cors = require('cors');
 
+const { dbConnection } = require('../database/config');
+
 class Server {
 
     constructor() {
         this.app = express();
         this.port = process.env.PORT;
         this.usersPath = '/api/users';
+
+        // Conectar a base de datos
+        this.conectarDB();
 
         // Middlewares: Son funciones que añaden funcionalidades al web server
         // La palabra clave "use" es para indicar que es un middleware
@@ -17,6 +22,10 @@ class Server {
         
     }
 
+    async conectarDB() {
+        await dbConnection();
+    }
+    
     middlewares() {
         
         // CORS: Sirve para que el servidor pueda recibir peticiones de cualquier lugar
